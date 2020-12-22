@@ -57,7 +57,7 @@ func (u *UserEvaluationService) GetLatestUserEvaluation(id string) ([]*model.Use
 		"evaluation_id": bson.M{
 			"$eq": "st5",
 		},
-	})
+	}, opts)
 	if err != nil {
 		return nil, err
 	}
@@ -76,7 +76,7 @@ func (u *UserEvaluationService) GetLatestUserEvaluation(id string) ([]*model.Use
 		"evaluation_id": bson.M{
 			"$eq": "phq9",
 		},
-	})
+	}, opts)
 	if err != nil {
 		return nil, err
 	}
@@ -112,6 +112,7 @@ func (u *UserEvaluationService) ToJSON(evaluation *model.UserEvaluation) *model.
 		Name:        evaluation.Name,
 		UserId:      evaluation.UserId,
 		Description: evaluation.Description,
+		EvaluationId: evaluation.EvaluationId,
 		Questions:   questions,
 		CreatedAt:   evaluation.CreatedAt,
 		CreatedBy:   evaluation.CreatedBy,

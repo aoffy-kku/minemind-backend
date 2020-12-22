@@ -14,7 +14,7 @@ def model(id, cortisol, timestamp):
 			'cortisol' : [cortisol]})
     
     # add type column
-    df['type'] = pd.to_datetime(df['TIMESTAMP']).dt.hour > 18
+    df['type'] = pd.to_datetime(df['TIMESTAMP'], errors='coerce', format='%d/%m/%Y %H:%M').dt.hour > 18
 
     # preprocessing
     df['type'] = df['type'].astype('category')

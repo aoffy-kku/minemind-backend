@@ -4,6 +4,8 @@ import sys
 from src import model_watch, model_cortisol, model_watchcortisol, model_st5, \
     model_phq9, model_all
 import json
+import warnings
+warnings.filterwarnings("ignore")
 
 """
     parameters
@@ -21,11 +23,11 @@ import json
 def selecting_model(case, id, clm, st5, phq9, cortisol, timestamp, birth_date, start_date, end_date):
     """
     Depression Classification Model
-        case 1: using smart watch data for classify
-        case 2: using cortisol data for classify
-        case 3: using smart watch and cortisol data for classify
-        case 4: using st5 data for classify
-        case 5: using phq9 data for classify
+        case 1: using st5 data for classify
+        case 2: using phq9 data for classify
+        case 3: using smart watch data for classify
+        case 4: using cortisol data for classify
+        case 5: using smart watch and cortisol data for classify
         case 6: using All data for classify
 
     return:
@@ -33,15 +35,15 @@ def selecting_model(case, id, clm, st5, phq9, cortisol, timestamp, birth_date, s
         Score = probability
     """
     if case == 1:
-        return model_watch.model(id, clm, birth_date, start_date, end_date)
-    if case == 2:
-        return model_cortisol.model(id, cortisol, timestamp)
-    if case == 3:
-        return model_watchcortisol.model(id, clm, cortisol, timestamp, birth_date, start_date, end_date)
-    if case == 4:
         return model_st5.model(id, st5)
-    if case == 5:
+    if case == 2:
         return model_phq9.model(id, phq9)
+    if case == 3:
+        return model_watch.model(id, clm, birth_date, start_date, end_date)
+    if case == 4:
+        return model_cortisol.model(id, cortisol, timestamp)
+    if case == 5:
+        return model_watchcortisol.model(id, clm, cortisol, timestamp, birth_date, start_date, end_date)
     if case == 6:
         return model_all.model(id, clm, st5, phq9, cortisol, timestamp, birth_date, start_date, end_date)
 

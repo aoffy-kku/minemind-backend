@@ -19,6 +19,7 @@ import (
 // @Failure 404 {object} utils.HttpResponse
 // @Failure 500 {object} utils.HttpResponse
 // @Router /v1/cortisol [post]
+// @Security ApiKeyAuth
 func (h *Handler) CreateCortisol(c echo.Context) error {
 	id := c.Get("id").(string)
 	var req model.CreateCortisolRequestJSON
@@ -49,6 +50,7 @@ func (h *Handler) CreateCortisol(c echo.Context) error {
 // @Failure 404 {object} utils.HttpResponse
 // @Failure 500 {object} utils.HttpResponse
 // @Router /v1/cortisol/backup [post]
+// @Security ApiKeyAuth
 func (h *Handler) CreateMultipleCortisol(c echo.Context) error {
 	id := c.Get("id").(string)
 	var req model.CreateMultipleCortisol
@@ -65,4 +67,27 @@ func (h *Handler) CreateMultipleCortisol(c echo.Context) error {
 		})
 	}
 	return utils.EchoHttpResponse(c, http.StatusCreated, result)
+}
+
+// GetLatestCortisol godoc
+// @tags Cortisol
+// @Summary Get latest cortisol
+// @Accept  json
+// @Produce  json
+// @Success 200 {object} model.CortisolJSON
+// @Failure 400 {object} utils.HttpResponse
+// @Failure 401 {object} utils.HttpResponse
+// @Failure 404 {object} utils.HttpResponse
+// @Failure 500 {object} utils.HttpResponse
+// @Router /v1/users/cortisol/latest [get]
+// @Security ApiKeyAuth
+func (h *Handler) GetLatestCortisol(c echo.Context) error {
+	id := c.Get("id").(string)
+	result, err := h.cortisolService.GetLatestCortisol(id)
+	if err != nil {
+		return utils.EchoHttpResponse(c, http.StatusInternalServerError, utils.HttpResponse{
+			Message: err.Error(),
+		})
+	}
+	return utils.EchoHttpResponse(c, http.StatusOK, result)
 }

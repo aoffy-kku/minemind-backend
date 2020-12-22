@@ -2,53 +2,22 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f9275270-75cc-459c-a99e-7e36b47307aa" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/cmd/migrate/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/cmd/test/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/handler/access_token.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/handler/analysis.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/handler/cortisol.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/handler/evaluation.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/handler/user_diary.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/handler/user_diary_mood.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/handler/user_evaluation.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/handler/user_mood.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/interface/analysis.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/interface/evaluation.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/interface/user_diary.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/interface/user_diary_mood.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/interface/user_evaluation.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/interface/user_mood.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/model/user_diary_mood.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/service/analysis.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/service/cortisol.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/service/evaluation.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/service/user_diary.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/service/user_diary_mood.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/service/user_evaluation.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/service/user_mood.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/Makefile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmd/test/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/cmd/test/main.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docs/docs.go" beforeDir="false" afterPath="$PROJECT_DIR$/docs/docs.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docs/swagger.json" beforeDir="false" afterPath="$PROJECT_DIR$/docs/swagger.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docs/swagger.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/docs/swagger.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/handler/handler.go" beforeDir="false" afterPath="$PROJECT_DIR$/handler/handler.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/handler/cortisol.go" beforeDir="false" afterPath="$PROJECT_DIR$/handler/cortisol.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/handler/routes.go" beforeDir="false" afterPath="$PROJECT_DIR$/handler/routes.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/handler/user.go" beforeDir="false" afterPath="$PROJECT_DIR$/handler/user.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/interface/cortisol.go" beforeDir="false" afterPath="$PROJECT_DIR$/interface/cortisol.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/access_token.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/access_token.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/analysis.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/analysis.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/cortisol.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/cortisol.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/evaluation.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/evaluation.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/user.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/user.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/user_diary.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/user_diary.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/user_evaluation.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/user_evaluation.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/user_mood.go" beforeDir="false" afterPath="$PROJECT_DIR$/model/user_mood.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/router/middleware/jwt.go" beforeDir="false" afterPath="$PROJECT_DIR$/router/middleware/jwt.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/service/access_token.go" beforeDir="false" afterPath="$PROJECT_DIR$/service/access_token.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/service/user.go" beforeDir="false" afterPath="$PROJECT_DIR$/service/user.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/jwt.go" beforeDir="false" afterPath="$PROJECT_DIR$/utils/jwt.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/minemind_analysis/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/minemind_analysis/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/minemind_analysis/src/model_cortisol.py" beforeDir="false" afterPath="$PROJECT_DIR$/minemind_analysis/src/model_cortisol.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/minemind_analysis/src/model_watchcortisol.py" beforeDir="false" afterPath="$PROJECT_DIR$/minemind_analysis/src/model_watchcortisol.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/prediction.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/service/analysis.go" beforeDir="false" afterPath="$PROJECT_DIR$/service/analysis.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service/cortisol.go" beforeDir="false" afterPath="$PROJECT_DIR$/service/cortisol.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service/user_evaluation.go" beforeDir="false" afterPath="$PROJECT_DIR$/service/user_evaluation.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -89,6 +58,7 @@
     <property name="node.js.path.for.package.tslint" value="project" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="settings.editor.selected.configurable" value="Docker" />
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="SshConsoleOptionsProvider">
@@ -111,13 +81,17 @@
     <integration-enabled>true</integration-enabled>
   </component>
   <component name="WindowStateProjectService">
-    <state x="446" y="255" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1604831632338">
+    <state x="446" y="255" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1608651052247">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state x="446" y="255" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1440.900@0.0.1440.900" timestamp="1604831632338" />
+    <state x="446" y="255" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1440.900@0.0.1440.900" timestamp="1608651052247" />
     <state x="487" y="160" key="#com.intellij.ide.util.MemberChooser" timestamp="1605103834761">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
     <state x="487" y="160" key="#com.intellij.ide.util.MemberChooser/0.0.1440.900@0.0.1440.900" timestamp="1605103834761" />
+    <state x="229" y="86" key="SettingsEditor" timestamp="1608610388473">
+      <screen x="0" y="0" width="1440" height="900" />
+    </state>
+    <state x="229" y="86" key="SettingsEditor/0.0.1440.900@0.0.1440.900" timestamp="1608610388473" />
   </component>
 </project>

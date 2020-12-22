@@ -432,6 +432,8 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/utils.HttpResponse'
+      security:
+      - ApiKeyAuth: []
       summary: Create cortisol
       tags:
       - Cortisol
@@ -471,6 +473,8 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/utils.HttpResponse'
+      security:
+      - ApiKeyAuth: []
       summary: Create multiple cortisol
       tags:
       - Cortisol
@@ -764,6 +768,38 @@ paths:
       summary: Get analysis by mode
       tags:
       - Analysis
+  /v1/users/cortisol/latest:
+    get:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.CortisolJSON'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.HttpResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/utils.HttpResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/utils.HttpResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.HttpResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Get latest cortisol
+      tags:
+      - Cortisol
   /v1/users/diary:
     get:
       consumes:

@@ -34,6 +34,9 @@ func (h *Handler) Register(v1 *echo.Group) {
 	user.POST("/evaluation", h.CreateUserEvaluation, auth)
 	user.GET("/evaluation", h.GetLatestUserEvaluation, auth)
 
+	// user cortisol
+	user.GET("/cortisol/latest", h.GetLatestCortisol, auth)
+
 	role := v1.Group("/roles")
 	role.GET("", h.GetRoles)
 

@@ -6,12 +6,39 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/mongo/options"
 	"time"
 )
 
 type CortisolService struct {
 	db *mongo.Database
 	col *mongo.Collection
+}
+
+func (c *CortisolService) GetLatestCortisol(id string) (*model.CortisolJSON, error) {
+	opts := &options.FindOptions{}
+	opts.SetSort(bson.M{
+		"timestamp": -1,
+	})
+	opts.SetLimit(1)
+	ctx := context.Background()
+	var doc *model.CortisolJSON
+	cur, err := c.col.Find(ctx, bson.M{
+		"user_id": bson.M{
+			"$eq": id,
+		},
+	}, opts)
+	if err != nil {
+		return nil, err
+	}
+	for cur.Next(ctx) {
+		var m model.Cortisol
+		if err := cur.Decode(&m); err != nil {
+			return nil, err
+		}
+		doc = c.ToJSON(&m)
+	}
+	return doc, nil
 }
 
 func (c *CortisolService) CreateCortisol(req model.CreateCortisolRequestJSON) (*model.CortisolJSON, error) {

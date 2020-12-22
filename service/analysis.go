@@ -1,7 +1,6 @@
 package service
 
 import (
-	"bufio"
 	"context"
 	"fmt"
 	"github.com/aoffy-kku/minemind-backend/model"
@@ -11,6 +10,8 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"log"
 	"os/exec"
+	"strconv"
+	"strings"
 	"sync"
 	"time"
 )
@@ -104,7 +105,6 @@ func (a *AnalysisService) CreateAnalysis(req model.CreateAnalysisRequestJSON) er
 	cortisolTimestamp := time.Now().Unix()
 	// check st5
 	if mode == 1 {
-		var ev model.UserEvaluation
 		cur, err := a.db.Collection("user_evaluation").Find(ctx, bson.M{
 			"user_id": bson.M{
 				"$eq": req.UserId,
@@ -124,7 +124,7 @@ func (a *AnalysisService) CreateAnalysis(req model.CreateAnalysisRequestJSON) er
 			userEvaluation = result
 		}
 		st5Value = 0
-		for _, question := range ev.Questions {
+		for _, question := range result.Questions {
 			for _, answer := range question.Options {
 				st5Value += answer.Value
 			}
@@ -132,7 +132,6 @@ func (a *AnalysisService) CreateAnalysis(req model.CreateAnalysisRequestJSON) er
 	}
 	// check phq9
 	if mode == 2 {
-		var ev model.UserEvaluation
 		cur, err := a.db.Collection("user_evaluation").Find(ctx, bson.M{
 			"user_id": bson.M{
 				"$eq": req.UserId,
@@ -152,7 +151,7 @@ func (a *AnalysisService) CreateAnalysis(req model.CreateAnalysisRequestJSON) er
 			userEvaluation = result
 		}
 		phq9Value = 0
-		for _, question := range ev.Questions {
+		for _, question := range result.Questions {
 			for _, answer := range question.Options {
 				phq9Value += answer.Value
 			}
@@ -235,41 +234,64 @@ func (a *AnalysisService) CreateAnalysis(req model.CreateAnalysisRequestJSON) er
 			user.WatchId,
 			fmt.Sprintf("%d", st5Value),
 			fmt.Sprintf("%d", phq9Value),
-			fmt.Sprintf("%f", cortisolValue),
+			fmt.Sprintf("%.2f", cortisolValue),
 			fmt.Sprintf("\"%s\"", ct.Format("02/01/2006 03:04")),
 			fmt.Sprintf("%s", user.BirthDate.Format("02/01/2006")),
 			fmt.Sprintf("%s", user.Begin.Format("2006-01-02")),
 			fmt.Sprintf("%s", time.Now().Format("2006-01-02")))
 		log.Println(cmd)
-		stdout, err := cmd.StdoutPipe()
-		if err != nil {
-			log.Println(err)
-		}
-		err = cmd.Start()
-		if err != nil {
-			log.Println(err)
-		}
-		scanner := bufio.NewScanner(stdout)
+		//stdout, err := cmd.StdoutPipe()
+		//if err != nil {
+		//	log.Println(err)
+		//}
+		//err = cmd.Start()
+		//if err != nil {
+		//	log.Println(err)
+		//}
+		//scanner := bufio.NewScanner(stdout)
 		var result string
-		for scanner.Scan() {
-			result = scanner.Text()
+		//for scanner.Scan() {
+		//	fmt.Println(scanner.Text())
+		//	result = scanner.Text()
+		//}
+		//if err := cmd.Wait(); err != nil {
+		//	log.Println(err)
+		//}
+		output, err := cmd.CombinedOutput()
+		if err != nil {
+			log.Println(err)
 		}
+		result = string(output)
 		log.Println(result)
-		//data := strings.Split(result, " ")
-		//print(data)
-		//class := data[1]
-		//score := data[3]
-		//a.col.UpdateOne(ctx, bson.M{
-		//	"_id": bson.M{
-		//		"$eq": id,
-		//	},
-		//}, bson.M{
-		//	"$set": bson.M{
-		//		"status": 1,
-		//		"class":  class,
-		//		"score":  score,
-		//	},
-		//})
+		data := strings.Split(result, " ")
+		if len(data) != 4 {
+			a.col.UpdateOne(ctx, bson.M{
+				"_id": bson.M{
+					"$eq": id,
+				},
+			}, bson.M{
+				"$set": bson.M{
+					"status": 2,
+				},
+			})
+		} else {
+			class := data[1]
+			score := data[3]
+			c, _ := strconv.ParseInt(class, 10, 64)
+			s, _ := strconv.ParseFloat(score, 64)
+
+			a.col.UpdateOne(ctx, bson.M{
+				"_id": bson.M{
+					"$eq": id,
+				},
+			}, bson.M{
+				"$set": bson.M{
+					"status": 1,
+					"class":  c,
+					"score":  s,
+				},
+			})
+		}
 	}(res.InsertedID)
 	return nil
 }
