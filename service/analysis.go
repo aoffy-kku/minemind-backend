@@ -262,6 +262,7 @@ func (a *AnalysisService) CreateAnalysis(req model.CreateAnalysisRequestJSON) er
 			log.Println(err)
 		}
 		result = string(output)
+		result = strings.TrimSpace(result)
 		log.Println(result)
 		data := strings.Split(result, " ")
 		if len(data) != 4 {

@@ -67,8 +67,11 @@ def model(id, clm, cortisol, timestamp, birthDate, start, end):
 
 
     # ===== load data cortisol ===== #
-    df_cortisol = pd.DataFrame({'TIMESTAMP': [timestamp], 
-				'cortisol': [cortisol]})
+    df_cortisol = pd.DataFrame({
+                'GROUP_USER_ID': [clm],
+                'TIMESTAMP': [timestamp],
+				'cortisol': [cortisol]
+    })
 
     # add type column
     df_cortisol['type'] = pd.to_datetime(df_cortisol['TIMESTAMP'], errors='coerce', format='%d/%m/%Y %H:%M').dt.hour > 18

@@ -2,22 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f9275270-75cc-459c-a99e-7e36b47307aa" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmd/test/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/cmd/test/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/docs.go" beforeDir="false" afterPath="$PROJECT_DIR$/docs/docs.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/swagger.json" beforeDir="false" afterPath="$PROJECT_DIR$/docs/swagger.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/swagger.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/docs/swagger.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/handler/cortisol.go" beforeDir="false" afterPath="$PROJECT_DIR$/handler/cortisol.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/handler/routes.go" beforeDir="false" afterPath="$PROJECT_DIR$/handler/routes.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/interface/cortisol.go" beforeDir="false" afterPath="$PROJECT_DIR$/interface/cortisol.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/minemind_analysis/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/minemind_analysis/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/minemind_analysis/src/model_cortisol.py" beforeDir="false" afterPath="$PROJECT_DIR$/minemind_analysis/src/model_cortisol.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/minemind_analysis/src/feature_extract.py" beforeDir="false" afterPath="$PROJECT_DIR$/minemind_analysis/src/feature_extract.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/minemind_analysis/src/model_all.py" beforeDir="false" afterPath="$PROJECT_DIR$/minemind_analysis/src/model_all.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/minemind_analysis/src/model_watchcortisol.py" beforeDir="false" afterPath="$PROJECT_DIR$/minemind_analysis/src/model_watchcortisol.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/prediction.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/prediction.json" beforeDir="false" afterPath="$PROJECT_DIR$/prediction.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/service/analysis.go" beforeDir="false" afterPath="$PROJECT_DIR$/service/analysis.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/service/cortisol.go" beforeDir="false" afterPath="$PROJECT_DIR$/service/cortisol.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/service/user_evaluation.go" beforeDir="false" afterPath="$PROJECT_DIR$/service/user_evaluation.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

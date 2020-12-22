@@ -76,6 +76,7 @@ def sleep_quality_score(tracking, user, IDCol='Group_User_ID'):
     # Add Age column
     data = pd.merge(tracking, user, how='left', left_on=IDCol, right_on='GROUP_USER_ID')
     data['Date'] = pd.to_datetime(data['Date'])
+    data['Birth_Date'] = pd.to_datetime(data['Birth_Date'], errors='coerce', format='%d/%m/%Y')
     data['Age'] = (data['Date'] - data['Birth_Date']).apply(lambda x: int(x.days/365))
     # sleep quality
     data['range'] = data.apply(lambda x: 1 if ( (x['HR(bpm)'] > 59)&
