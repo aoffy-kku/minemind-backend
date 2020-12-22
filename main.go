@@ -30,5 +30,5 @@ func main() {
 	db := db2.New()
 	h := handler.NewHandler(db)
 	h.Register(v1)
-	log.Fatal(r.Start("127.0.0.1:1321"))
+	log.Fatal(r.Start("0.0.0.0:1321"))
 }

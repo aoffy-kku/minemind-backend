@@ -8,6 +8,7 @@ type User struct {
 	DisplayName string    `bson:"display_name"`
 	WatchId     string    `bson:"watch_id"`
 	Roles       []string  `bson:"roles"`
+	BirthDate time.Time `bson:"birth_date"`
 	Begin       time.Time `bson:"begin"`
 	End         time.Time `bson:"end"`
 	CreatedAt   time.Time `bson:"created_at"`
@@ -23,6 +24,7 @@ type UserJSON struct {
 	Roles       []string  `json:"roles"`
 	Begin       time.Time `json:"begin"`
 	End         time.Time `json:"end"`
+	BirthDate time.Time `json:"birthDate"`
 	CreatedAt   time.Time `json:"createdAt"`
 	CreatedBy   string    `json:"createdBy"`
 	UpdatedAt   time.Time `json:"updatedAt"`
@@ -34,11 +36,14 @@ type CreateUserRequestJSON struct {
 	Password    string `json:"password" validate:"required,min=8"`
 	DisplayName string `json:"displayName" validate:"required,min=4"`
 	WatchId     string `json:"watchId" validate:"required"`
+	BirthDate time.Time `json:"birthDate" validate:"required"`
+	CreatedBy string `json:"-"`
 }
 
 type UpdateUserRequestJSON struct {
 	DisplayName string `json:"displayName" validate:"required,min=4"`
 	WatchId     string `json:"watchId" validate:"required"`
+	BirthDate time.Time `json:"birthDate" validate:"required"`
 }
 
 type UserLoginRequestJSON struct {
@@ -51,4 +56,5 @@ type MeJSON struct {
 	DisplayName string   `json:"displayName"`
 	WatchId     string   `json:"watchId"`
 	Roles       []string `json:"roles"`
+	BirthDate time.Time `json:"birthDate"`
 }

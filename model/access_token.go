@@ -10,8 +10,8 @@ type AccessToken struct {
 	CreatedBy string    `bson:"created_by"`
 }
 type UpdateAccessTokenJSON struct {
-	Id string   `json:"id"`
-	Pair string `json:"-"`
+	Id string   `json:"id" validate:"required"`
+	Pair string `json:"pair" validate:"required"`
 }
 type AccessTokenJSON struct {
 	Id string           `json:"id"`

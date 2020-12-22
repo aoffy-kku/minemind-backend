@@ -1,31 +1,53 @@
 package model
 
 import (
-	"go.mongodb.org/mongo-driver/bson/primitive"
 	"time"
 )
 
 type Option struct {
-	Id primitive.ObjectID
-	QuestionId primitive.ObjectID
-	Title string
-	Value int64
+	Id int64     `bson:"_id"`
+	Title string `bson:"title"`
+	Value int64  `bson:"value"`
 }
+
 type Question struct {
-	Id primitive.ObjectID
-	EvaluationId string
-	Title string
-	Options []primitive.ObjectID
+	Id int64         `bson:"_id"`
+	Title string     `bson:"title"`
+	Options []Option `bson:"options"`
 }
+
 type Evaluation struct {
-	Id string
-	Description string
-	Questions []primitive.ObjectID
-	CreatedAt time.Time
-	CreatedBy string
+	Id string            `bson:"_id"`
+	Name string          `bson:"name"`
+	Description string   `bson:"description"`
+	Questions []Question `bson:"questions"`
+	CreatedAt time.Time  `bson:"created_at"`
+	CreatedBy string     `bson:"created_by"`
 }
+
+type OptionJSON struct {
+	Id int64     `json:"id"`
+	Title string `json:"title"`
+	Value int64  `json:"value"`
+}
+
+type QuestionJSON struct {
+	Id int64         `json:"id"`
+	Title string     `json:"title"`
+	Options []OptionJSON `json:"options"`
+}
+
+type EvaluationJSON struct {
+	Id string            `json:"id"`
+	Name string          `json:"name"`
+	Description string   `json:"description"`
+	Questions []QuestionJSON `json:"questions"`
+	CreatedAt time.Time  `json:"createdAt"`
+	CreatedBy string     `json:"createdBy"`
+}
+
 type CreateEvaluationRequestJSON struct {
-	Name string
-	Description string
-	Questions []Question
+	Name string          `json:"name"`
+	Description string   `json:"description"`
+	Questions []Question `json:"questions"`
 }

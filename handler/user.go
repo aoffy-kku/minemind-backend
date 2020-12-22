@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"fmt"
 	"github.com/aoffy-kku/minemind-backend/model"
 	"github.com/aoffy-kku/minemind-backend/utils"
 	"github.com/labstack/echo/v4"
@@ -20,14 +21,19 @@ import (
 // @Failure 404 {object} utils.HttpResponse
 // @Failure 500 {object} utils.HttpResponse
 // @Router /v1/users [post]
+// @Security ApiKeyAuth
 func (h *Handler) CreateUser(c echo.Context) error {
 	var req model.CreateUserRequestJSON
+	id := c.Get("id").(string)
 	if err := c.Bind(&req); err != nil {
 		return utils.EchoHttpResponse(c, http.StatusBadRequest, utils.HttpResponse{Message: err.Error()})
 	}
 	if err := c.Validate(&req); err != nil {
 		return utils.EchoHttpResponse(c, http.StatusBadRequest, utils.HttpResponse{Message: err.Error()})
 	}
+	req.CreatedBy = id
+	hash, _ := utils.GeneratePassword(req.Password)
+	req.Password = hash
 	result, err := h.userService.CreateUser(req)
 	if err != nil {
 		return utils.EchoHttpResponse(c, http.StatusUnprocessableEntity, utils.HttpResponse{Message: err.Error()})
@@ -49,6 +55,7 @@ func (h *Handler) CreateUser(c echo.Context) error {
 // @Security ApiKeyAuth
 func (h *Handler) GetMe(c echo.Context) error {
 	id := c.Get("id").(string)
+	fmt.Println(id)
 	result , err := h.userService.GetMe(id)
 	if err !=nil {
 		if err == mongo.ErrNoDocuments {

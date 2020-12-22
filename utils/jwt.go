@@ -22,6 +22,7 @@ func GenerateAccessToken(id string, exp int64) string {
 	claims := token.Claims.(jwt.MapClaims)
 	claims["id"] = id
 	claims["exp"] = exp
+
 	t, _ := token.SignedString([]byte("Minemind2019"))
 	return t
 }

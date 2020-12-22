@@ -7,7 +7,6 @@ import (
 	"github.com/dgrijalva/jwt-go"
 	"github.com/labstack/echo/v4"
 	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 	"net/http"
 )
@@ -39,18 +38,14 @@ func JWTWithConfig(config utils.JWTConfig, db *mongo.Database) echo.MiddlewareFu
 				return config.SigningKey, nil
 			})
 			if err != nil {
-				return utils.EchoHttpResponse(c, http.StatusForbidden, utils.HttpResponse{})
+				return utils.EchoHttpResponse(c, http.StatusForbidden, utils.HttpResponse{Message: err.Error()})
 			}
 			if claims, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
 				id := claims["id"].(string)
-				objectId, err := primitive.ObjectIDFromHex(id)
-				if err != nil {
-					return utils.EchoHttpResponse(c, http.StatusUnauthorized, utils.HttpResponse{})
-				}
 				var m interface{}
 				if err := db.Collection("access_token").FindOne(ctx, bson.M{
 					"user_id": bson.M{
-						"$eq": objectId,
+						"$eq": id,
 					},
 					"pair": bson.M{
 						"$eq": token.Raw,

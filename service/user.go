@@ -2,10 +2,12 @@ package service
 
 import (
 	"context"
+	"fmt"
 	_interface "github.com/aoffy-kku/minemind-backend/interface"
 	"github.com/aoffy-kku/minemind-backend/model"
 	"github.com/aoffy-kku/minemind-backend/utils"
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 	"time"
 )
@@ -18,23 +20,22 @@ type UserService struct {
 
 func (u *UserService) Login(user model.UserLoginRequestJSON) (*model.AccessTokenJSON, error) {
 	ctx := context.Background()
-	hash, _ := utils.GeneratePassword(user.Password)
 	var m model.User
 	if err := u.col.FindOne(ctx, bson.M{
 		"_id": bson.M{
 			"$eq": user.Email,
 		},
-		"password": bson.M{
-			"$eq": hash,
-		},
 	}).Decode(&m); err != nil {
 		return nil, err
 	}
-	result, err := u.accessTokenService.CreateToken(user.Email)
-	if err != nil {
-		return nil, err
+	if utils.CheckPassword([]byte(user.Password), m.Password) {
+		result, err := u.accessTokenService.CreateToken(user.Email)
+		if err != nil {
+			return nil, err
+		}
+		return result, nil
 	}
-	return result, nil
+	return nil, fmt.Errorf("invalid password")
 }
 
 func (u *UserService) Logout() error {
@@ -52,10 +53,13 @@ func (u *UserService) CreateUser(user model.CreateUserRequestJSON) (*model.UserJ
 		Roles:       []string{
 			"user",
 		},
+		BirthDate: user.BirthDate,
 		Begin:       time.Time{},
 		End:         time.Time{},
 		CreatedAt:   now,
+		CreatedBy: user.CreatedBy,
 		UpdatedAt:   now,
+		UpdatedBy: user.CreatedBy,
 	})
 	if err != nil {
 		return nil, err
@@ -66,6 +70,9 @@ func (u *UserService) CreateUser(user model.CreateUserRequestJSON) (*model.UserJ
 			"$eq": result.InsertedID.(string),
 		},
 	}).Decode(&m); err != nil {
+		return nil, err
+	}
+	if err := u.migrateMood(m.Email); err != nil {
 		return nil, err
 	}
 	return u.ToJSON(&m), nil
@@ -122,6 +129,7 @@ func (u *UserService) ToJSON(user *model.User) *model.UserJSON {
 		Roles:       user.Roles,
 		Begin:       user.Begin,
 		End:         user.End,
+		BirthDate: 	 user.BirthDate,
 		CreatedAt:   user.CreatedAt,
 		CreatedBy:   user.CreatedBy,
 		UpdatedAt:   user.UpdatedAt,
@@ -135,6 +143,7 @@ func (u *UserService) ToMeJSON(user *model.User) *model.MeJSON {
 		DisplayName: user.DisplayName,
 		WatchId:     user.WatchId,
 		Roles:       user.Roles,
+		BirthDate:   user.BirthDate,
 	}
 }
 
@@ -144,4 +153,32 @@ func NewUserService(db *mongo.Database) *UserService {
 		col: db.Collection("user"),
 		accessTokenService: NewAccessTokenService(db),
 	}
+}
+
+func (u *UserService) migrateMood(userId string) error {
+	ctx := context.Background()
+	cur, err := u.db.Collection("mood").Find(ctx, bson.M{})
+	if err != nil {
+		return err
+	}
+	var moods []interface{}
+	now := time.Now()
+	for cur.Next(ctx) {
+		var m model.Mood
+		if err := cur.Decode(&m); err != nil {
+			return err
+		}
+		moods = append(moods, &model.UserMood{
+			Id:        primitive.NewObjectIDFromTimestamp(now),
+			Name:      m.Name,
+			UserId:    userId,
+			Active:    true,
+			CreatedAt: now,
+			CreatedBy: "system",
+		})
+	}
+	if _, err := u.db.Collection("user_mood").InsertMany(ctx, moods); err != nil {
+		return err
+	}
+	return nil
 }
