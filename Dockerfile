@@ -8,5 +8,6 @@ WORKDIR /go/src/github.com/aoffy-kku/minemind-backend
 ADD . .
 
 RUN go build main.go
-
+EXPOSE 1321
 CMD ["./main"]
+

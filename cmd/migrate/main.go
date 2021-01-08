@@ -13,10 +13,10 @@ var db = db2.New()
 var ctx = context.Background()
 
 func main()  {
-	//migrateRole()
-	//migrateST5()
-	//migratePHQ9()
-	//migrateMood()
+	migrateRole()
+	migrateST5()
+	migratePHQ9()
+	migrateMood()
 	migrateVersion()
 }
 

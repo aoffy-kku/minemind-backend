@@ -8,7 +8,7 @@ import (
 	"time"
 )
 
-var dbName = "minemind_staging"
+var dbName = "minemind_production"
 func New() *mongo.Database {
 	ctx, _ := context.WithTimeout(context.Background(), 10*time.Second)
 

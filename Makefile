@@ -6,5 +6,4 @@ test:
 migrate:
 	go run cmd/migrate/main.go
 build:
-	docker build -f Dockerfile -t asia.gcr.io/kube101-292215/minemind-backend .
-	docker push asia.gcr.io/kube101-292215/minemind-backend
+	docker build -f Dockerfile -t minemind-backend .
