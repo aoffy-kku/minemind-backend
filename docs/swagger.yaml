@@ -1,5 +1,123 @@
 basePath: /
 definitions:
+  handler.MeasurementResponse:
+    properties:
+      mood:
+        $ref: '#/definitions/handler.MoodResponse'
+        type: object
+      sleep:
+        $ref: '#/definitions/handler.SleepResponse'
+        type: object
+      steps:
+        $ref: '#/definitions/handler.StepResponse'
+        type: object
+      stress:
+        $ref: '#/definitions/handler.StressResponse'
+        type: object
+    type: object
+  handler.Mood:
+    properties:
+      count:
+        type: integer
+      mood:
+        type: string
+    type: object
+  handler.MoodMeasurement:
+    properties:
+      moods:
+        items:
+          $ref: '#/definitions/handler.Mood'
+        type: array
+    type: object
+  handler.MoodResponse:
+    properties:
+      month:
+        $ref: '#/definitions/handler.MoodMeasurement'
+        type: object
+      today:
+        $ref: '#/definitions/handler.MoodMeasurement'
+        type: object
+      week:
+        $ref: '#/definitions/handler.MoodMeasurement'
+        type: object
+    type: object
+  handler.SleepMeasurement:
+    properties:
+      rem:
+        type: integer
+      timestamp:
+        type: string
+      ttb:
+        type: integer
+    type: object
+  handler.SleepResponse:
+    properties:
+      month:
+        items:
+          $ref: '#/definitions/handler.SleepMeasurement'
+        type: array
+      today:
+        items:
+          $ref: '#/definitions/handler.SleepMeasurement'
+        type: array
+      week:
+        items:
+          $ref: '#/definitions/handler.SleepMeasurement'
+        type: array
+    type: object
+  handler.StepMeasurement:
+    properties:
+      timestamp:
+        type: string
+      value:
+        type: number
+    type: object
+  handler.StepResponse:
+    properties:
+      month:
+        items:
+          $ref: '#/definitions/handler.StepMeasurement'
+        type: array
+      today:
+        items:
+          $ref: '#/definitions/handler.StepMeasurement'
+        type: array
+      week:
+        items:
+          $ref: '#/definitions/handler.StepMeasurement'
+        type: array
+    type: object
+  handler.StressMeasurement:
+    properties:
+      normal:
+        type: integer
+      stress:
+        type: integer
+      timestamp:
+        type: string
+    type: object
+  handler.StressResponse:
+    properties:
+      month:
+        items:
+          $ref: '#/definitions/handler.StressMeasurement'
+        type: array
+      today:
+        items:
+          $ref: '#/definitions/handler.StressMeasurement'
+        type: array
+      week:
+        items:
+          $ref: '#/definitions/handler.StressMeasurement'
+        type: array
+    type: object
+  handler.Version:
+    properties:
+      code:
+        type: string
+      url:
+        type: string
+    type: object
   model.AccessTokenJSON:
     properties:
       createdAt:
@@ -510,6 +628,38 @@ paths:
       summary: Get evaluations
       tags:
       - Evaluation
+  /v1/measurement:
+    get:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handler.MeasurementResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/utils.HttpResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/utils.HttpResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/utils.HttpResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.HttpResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Get measurement
+      tags:
+      - Measurement
   /v1/roles:
     get:
       consumes:
@@ -729,6 +879,44 @@ paths:
       summary: Create analysis
       tags:
       - Analysis
+  /v1/users/analysis/{id}:
+    delete:
+      consumes:
+      - application/json
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+          schema:
+            $ref: '#/definitions/utils.HttpResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/utils.HttpResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/utils.HttpResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/utils.HttpResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.HttpResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Delete user analysis
+      tags:
+      - Analysis
   /v1/users/analysis/mode/{mode}:
     get:
       consumes:
@@ -877,6 +1065,44 @@ paths:
       security:
       - ApiKeyAuth: []
       summary: Create user diary
+      tags:
+      - UserDiary
+  /v1/users/diary/{id}:
+    delete:
+      consumes:
+      - application/json
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+          schema:
+            $ref: '#/definitions/utils.HttpResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/utils.HttpResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/utils.HttpResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/utils.HttpResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.HttpResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Delete user diary
       tags:
       - UserDiary
   /v1/users/diary/mood:
@@ -1219,6 +1445,36 @@ paths:
       summary: Update user moods
       tags:
       - UserMood
+  /v1/version:
+    get:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handler.Version'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/utils.HttpResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/utils.HttpResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/utils.HttpResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.HttpResponse'
+      summary: Get version
+      tags:
+      - Version
 schemes:
 - http
 - https

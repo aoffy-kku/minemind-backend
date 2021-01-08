@@ -24,10 +24,11 @@ func (h *Handler) Register(v1 *echo.Group) {
 	// user diary
 	user.POST("/diary", h.CreateUserDiary, auth)
 	user.GET("/diary", h.GetUserDiaryByDate, auth)
-
+	user.DELETE("/diary/:id", h.DeleteUserDiary, auth)
 	// user analysis
 	user.POST("/analysis", h.CreateAnalysis, auth)
 	user.GET("/analysis", h.GetAnalysisByDate, auth)
+	user.DELETE("/analysis/:id", h.DeleteAnalysis, auth)
 	user.GET("/analysis/mode/:mode", h.GetAnalysisByMode, auth)
 
 	// user evaluation
@@ -50,4 +51,9 @@ func (h *Handler) Register(v1 *echo.Group) {
 	accessToken := v1.Group("/access-token")
 	accessToken.POST("/renew", h.GetAccessToken)
 
+	measurement := v1.Group("/measurement", auth)
+	measurement.GET("", h.GetMeasurement)
+
+	version := v1.Group("/version")
+	version.GET("", h.GetVersion)
 }

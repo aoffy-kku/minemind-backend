@@ -4,6 +4,7 @@ import (
 	"github.com/aoffy-kku/minemind-backend/model"
 	"github.com/aoffy-kku/minemind-backend/utils"
 	"github.com/labstack/echo/v4"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"net/http"
 	"strconv"
 	"time"
@@ -84,4 +85,34 @@ func (h *Handler) GetUserDiaryByDate(c echo.Context) error {
 		})
 	}
 	return utils.EchoHttpResponse(c, http.StatusOK, result)
+}
+
+// DeleteUserDiary godoc
+// @tags UserDiary
+// @Summary Delete user diary
+// @Accept  json
+// @Produce  json
+// @Param id path string true "id"
+// @Success 204 {object} utils.HttpResponse
+// @Failure 401 {object} utils.HttpResponse
+// @Failure 403 {object} utils.HttpResponse
+// @Failure 404 {object} utils.HttpResponse
+// @Failure 500 {object} utils.HttpResponse
+// @Router /v1/users/diary/{id} [delete]
+// @Security ApiKeyAuth
+func (h *Handler) DeleteUserDiary(c echo.Context) error {
+	uid := c.Get("id").(string)
+	id := c.Param("id")
+	oid, err := primitive.ObjectIDFromHex(id)
+	if err != nil {
+		return utils.EchoHttpResponse(c, http.StatusBadRequest, utils.HttpResponse{
+			Message: "invalid id",
+		})
+	}
+	if err := h.userDiaryService.DeleteUserDiary(oid, uid); err != nil {
+		return utils.EchoHttpResponse(c, http.StatusInternalServerError, utils.HttpResponse{
+			Message: err.Error(),
+		})
+	}
+	return utils.EchoHttpResponse(c, http.StatusOK, utils.HttpResponse{})
 }

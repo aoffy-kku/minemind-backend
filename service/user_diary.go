@@ -15,6 +15,22 @@ type UserDiaryService struct {
 	col *mongo.Collection
 }
 
+func (u *UserDiaryService) DeleteUserDiary(id primitive.ObjectID, uid string) error {
+	ctx := context.Background()
+	_, err := u.col.DeleteOne(ctx, bson.M{
+		"_id": bson.M{
+			"$eq": id,
+		},
+		"user_id": bson.M{
+			"$eq": uid,
+		},
+	})
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
 func (u *UserDiaryService) GetUserDiaryByDate(id string, date time.Time) ([]*model.UserDiaryJSON, error) {
 	ctx := context.Background()
 	fromDate := time.Date(date.Year(), date.Month(), 1, 0, 0, 0, 0, time.UTC)

@@ -17,6 +17,25 @@ func main()  {
 	//migrateST5()
 	//migratePHQ9()
 	//migrateMood()
+	migrateVersion()
+}
+
+func migrateVersion() {
+	type Version struct {
+		Id string `bson:"_id" json:"id"`
+		Code string `bson:"code" json:"code"`
+		Url string  `bson:"url" json:"url"`
+	}
+	col := db.Collection("version")
+	result, err := col.InsertOne(ctx, &Version{
+		Id: "minemind",
+		Code: "1.0.0",
+		Url:  "",
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Printf("Inserted %s \n", result.InsertedID)
 }
 
 

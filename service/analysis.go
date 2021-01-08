@@ -21,6 +21,22 @@ type AnalysisService struct {
 	col *mongo.Collection
 }
 
+func (a *AnalysisService) DeleteAnalysis(id primitive.ObjectID, uid string) error {
+	ctx := context.Background()
+	_, err := a.col.DeleteOne(ctx, bson.M{
+		"_id": bson.M{
+			"$eq": id,
+		},
+		"user_id": bson.M{
+			"$eq": uid,
+		},
+	})
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
 func (a *AnalysisService) GetAnalysisByDate(id string, date time.Time) ([]*model.AnalysisJSON, error) {
 	ctx := context.Background()
 	fromDate := time.Date(date.Year(), date.Month(), 1, 0, 0, 0, 0, time.UTC)
