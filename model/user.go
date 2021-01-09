@@ -36,14 +36,12 @@ type CreateUserRequestJSON struct {
 	Password    string `json:"password" validate:"required,min=8"`
 	DisplayName string `json:"displayName" validate:"required,min=4"`
 	WatchId     string `json:"watchId" validate:"required"`
-	BirthDate time.Time `json:"birthDate" validate:"required"`
 	CreatedBy string `json:"-"`
 }
 
 type UpdateUserRequestJSON struct {
 	DisplayName string `json:"displayName" validate:"required,min=4"`
 	WatchId     string `json:"watchId" validate:"required"`
-	BirthDate time.Time `json:"birthDate" validate:"required"`
 }
 
 type UserLoginRequestJSON struct {

@@ -243,8 +243,6 @@ definitions:
     type: object
   model.CreateUserRequestJSON:
     properties:
-      birthDate:
-        type: string
       displayName:
         type: string
       email:
@@ -254,7 +252,6 @@ definitions:
       watchId:
         type: string
     required:
-    - birthDate
     - displayName
     - email
     - password
@@ -956,6 +953,44 @@ paths:
       summary: Get analysis by mode
       tags:
       - Analysis
+  /v1/users/birthdate/{birthdate}:
+    patch:
+      consumes:
+      - application/json
+      parameters:
+      - description: birthdate
+        in: path
+        name: birthdate
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.HttpResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/utils.HttpResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/utils.HttpResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/utils.HttpResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.HttpResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Update birth date
+      tags:
+      - User
   /v1/users/cortisol/latest:
     get:
       consumes:

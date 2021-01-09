@@ -7,6 +7,7 @@ import (
 	"github.com/labstack/echo/v4"
 	"go.mongodb.org/mongo-driver/mongo"
 	"net/http"
+	"time"
 )
 
 // CreateUser godoc
@@ -142,4 +143,30 @@ func (h *Handler) Login(c echo.Context) error  {
 		return utils.EchoHttpResponse(c, http.StatusInternalServerError, utils.HttpResponse{Message: err.Error()})
 	}
 	return utils.EchoHttpResponse(c, http.StatusOK, results)
+}
+
+// UpdateBirthDate godoc
+// @tags User
+// @Summary Update birth date
+// @Accept  json
+// @Produce  json
+// @Param birthdate path string true "birthdate"
+// @Success 200 {object} utils.HttpResponse
+// @Failure 401 {object} utils.HttpResponse
+// @Failure 403 {object} utils.HttpResponse
+// @Failure 404 {object} utils.HttpResponse
+// @Failure 500 {object} utils.HttpResponse
+// @Router /v1/users/birthdate/{birthdate} [patch]
+// @Security ApiKeyAuth
+func (h *Handler) UpdateBirthDate(c echo.Context) error  {
+	date := c.Param("birthdate")
+	id := c.Get("id").(string)
+	ts, err := time.Parse("2006-01-02T03-04-05Z", date)
+	if err != nil {
+		return utils.EchoHttpResponse(c, http.StatusBadRequest, utils.HttpResponse{Message: err.Error()})
+	}
+	if err := h.userService.UpdateBirthDate(id, ts); err !=nil {
+		return utils.EchoHttpResponse(c, http.StatusInternalServerError, utils.HttpResponse{Message: err.Error()})
+	}
+	return utils.EchoHttpResponse(c, http.StatusOK, utils.HttpResponse{})
 }

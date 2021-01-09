@@ -18,6 +18,21 @@ type UserService struct {
 	accessTokenService _interface.AccessTokenServiceInterface
 }
 
+func (u *UserService) UpdateBirthDate(id string, date time.Time) error {
+	if _, err := u.col.UpdateOne(context.Background(), bson.M{
+		"_id": bson.M{
+			"$eq": id,
+		},
+	}, bson.M{
+		"$set": bson.M{
+			"birth_date": date,
+		},
+	}); err != nil {
+		return err
+	}
+	return nil
+}
+
 func (u *UserService) Login(user model.UserLoginRequestJSON) (*model.AccessTokenJSON, error) {
 	ctx := context.Background()
 	var m model.User
@@ -53,7 +68,7 @@ func (u *UserService) CreateUser(user model.CreateUserRequestJSON) (*model.UserJ
 		Roles:       []string{
 			"user",
 		},
-		BirthDate: user.BirthDate,
+		BirthDate: time.Time{},
 		Begin:       time.Time{},
 		End:         time.Time{},
 		CreatedAt:   now,

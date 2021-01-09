@@ -707,6 +707,66 @@
                 }
             }
         },
+        "/v1/users/birthdate/{birthdate}": {
+            "patch": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "User"
+                ],
+                "summary": "Update birth date",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "birthdate",
+                        "name": "birthdate",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/utils.HttpResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/utils.HttpResponse"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "$ref": "#/definitions/utils.HttpResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/utils.HttpResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/utils.HttpResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/v1/users/cortisol/latest": {
             "get": {
                 "security": [
@@ -1957,16 +2017,12 @@
         "model.CreateUserRequestJSON": {
             "type": "object",
             "required": [
-                "birthDate",
                 "displayName",
                 "email",
                 "password",
                 "watchId"
             ],
             "properties": {
-                "birthDate": {
-                    "type": "string"
-                },
                 "displayName": {
                     "type": "string"
                 },

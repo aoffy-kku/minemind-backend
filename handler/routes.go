@@ -11,6 +11,7 @@ func (h *Handler) Register(v1 *echo.Group) {
 	user := v1.Group("/users")
 	user.POST("", h.CreateUser, auth, middleware.Roles(h.db, middleware.Admin))
 	user.GET("/me", h.GetMe, auth)
+	user.PATCH("/birthdate/:birthdate", h.UpdateBirthDate, auth)
 	user.GET("/:id", h.GetUserById, auth, middleware.Roles(h.db, middleware.Admin))
 	user.GET("", h.GetUsers, auth, middleware.Roles(h.db, middleware.Admin))
 	user.POST("/login", h.Login)
