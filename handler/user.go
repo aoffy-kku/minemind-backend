@@ -67,12 +67,12 @@ func (h *Handler) GetMe(c echo.Context) error {
 	return utils.EchoHttpResponse(c, http.StatusOK, result)
 }
 
-// GetMe godoc
+// OldGetMe godoc
 // @tags OldUser
 // @Summary Get me
 // @Accept  json
 // @Produce  json
-// @Success 200 {object} model.MeJSON
+// @Success 200 {object} model.OldUser
 // @Failure 401 {object} utils.HttpResponse
 // @Failure 403 {object} utils.HttpResponse
 // @Failure 404 {object} utils.HttpResponse
@@ -81,7 +81,6 @@ func (h *Handler) GetMe(c echo.Context) error {
 // @Security ApiKeyAuth
 func (h *Handler) OldGetMe(c echo.Context) error {
 	id := c.Get("id").(string)
-	fmt.Println(id)
 	result , err := h.userService.GetMe(id)
 	if err !=nil {
 		if err == mongo.ErrNoDocuments {
@@ -89,7 +88,12 @@ func (h *Handler) OldGetMe(c echo.Context) error {
 		}
 		return utils.EchoHttpResponse(c, http.StatusInternalServerError, utils.HttpResponse{Message: err.Error()})
 	}
-	return utils.EchoHttpResponse(c, http.StatusOK, result)
+	return c.JSON(http.StatusOK, &model.OldUser{
+		Username:    result.Email,
+		DisplayName: result.DisplayName,
+		WatchId:     result.WatchId,
+		Email:       result.Email,
+	})
 }
 
 // GetUserById godoc
@@ -175,7 +179,7 @@ func (h *Handler) Login(c echo.Context) error  {
 // @Summary Login
 // @Accept  json
 // @Produce  json
-// @Param body body model.UserLoginRequestJSON true "body"
+// @Param body body model.OldUserLoginRequestJSON true "body"
 // @Success 200 {array} model.AccessTokenJSON
 // @Failure 401 {object} utils.HttpResponse
 // @Failure 403 {object} utils.HttpResponse
@@ -183,14 +187,17 @@ func (h *Handler) Login(c echo.Context) error  {
 // @Failure 500 {object} utils.HttpResponse
 // @Router /v1/login [post]
 func (h *Handler) OldLogin(c echo.Context) error  {
-	var req model.UserLoginRequestJSON
+	var req model.OldUserLoginRequestJSON
 	if err := c.Bind(&req); err != nil {
 		return utils.EchoHttpResponse(c, http.StatusBadRequest, utils.HttpResponse{Message: err.Error()})
 	}
 	if err := c.Validate(&req); err != nil {
 		return utils.EchoHttpResponse(c, http.StatusBadRequest, utils.HttpResponse{Message: err.Error()})
 	}
-	results, err := h.userService.Login(req)
+	results, err := h.userService.Login(model.UserLoginRequestJSON{
+		Email:    req.Email,
+		Password: req.Password,
+	})
 	if err !=nil {
 		if err == mongo.ErrNoDocuments {
 			return utils.EchoHttpResponse(c, http.StatusNotFound, utils.HttpResponse{})

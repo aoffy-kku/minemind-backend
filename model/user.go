@@ -49,10 +49,27 @@ type UserLoginRequestJSON struct {
 	Password string `json:"password" validate:"required,min=8"`
 }
 
+type OldUserLoginRequestJSON struct {
+	Email string    `json:"username" validate:"required"`
+	Password string `json:"password" validate:"required,min=8"`
+}
+
 type MeJSON struct {
 	Email       string   `json:"email"`
 	DisplayName string   `json:"displayName"`
 	WatchId     string   `json:"watchId"`
 	Roles       []string `json:"roles"`
 	BirthDate time.Time `json:"birthDate"`
+}
+
+type OldUser struct {
+	Username    string    `bson:"_id" json:"username"`
+	Password    string    `bson:"password" json:"-"`
+	DisplayName string    `bson:"display_name" json:"display_name"`
+	WatchId     string    `bson:"watch_id" json:"watch_id"`
+	PhoneNumber string    `bson:"phone_number" json:"phone_number"`
+	Email       string    `bson:"email" json:"email"`
+	RoleId      string    `bson:"role_id" json:"-"`
+	Created     time.Time `bson:"created" json:"created"`
+	Modified    time.Time `bson:"modified" json:"modified"`
 }
