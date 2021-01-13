@@ -1,11 +1,16 @@
 package main
 
 import (
+	"bytes"
 	"context"
+	"encoding/json"
 	"fmt"
 	db2 "github.com/aoffy-kku/minemind-backend/db"
 	"github.com/aoffy-kku/minemind-backend/model"
 	"go.mongodb.org/mongo-driver/bson/primitive"
+	"io/ioutil"
+	"log"
+	"net/http"
 	"time"
 )
 
@@ -13,11 +18,63 @@ var db = db2.New()
 var ctx = context.Background()
 
 func main()  {
-	migrateRole()
-	migrateST5()
-	migratePHQ9()
-	migrateMood()
-	migrateVersion()
+	//migrateRole()
+	//migrateST5()
+	//migratePHQ9()
+	//migrateMood()
+	//migrateVersion()
+	migrateTester()
+}
+
+func migrateTester() {
+	ids := []string{
+		"CLM_26qxn",
+		"CLM_0SIM5",
+		"CLM_CuXIM",
+		"CLM_wA2Z7",
+		"CLM_thtiL",
+		"CLM_fyZ1L",
+		"CLM_KJPeA",
+		"CLM_5jkwP",
+		"CLM_kbY4W",
+		"CLM_mSs8Q",
+	}
+	accessToken := "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MTAzNDAwMzcsImlkIjoiYWRtaW5AbWluZW1pbmQubmV0In0.vEl1BOk7vXGT1UZ88O9GawtpQhu7r4Jb3vfuWrqnxkE"
+	for i, id := range ids {
+		prefix := ""
+		if i + 1 < 10 {
+			prefix = fmt.Sprintf("minemind00%d.kku", i + 1)
+		} else {
+			prefix = fmt.Sprintf("minemind0%d.kku", i + 1)
+		}
+		user := model.CreateUserRequestJSON{
+			Email:      fmt.Sprintf("%s@minemind.net", prefix),
+			Password:   prefix,
+			DisplayName: prefix,
+			WatchId:     id,
+		}
+		body, err := json.Marshal(&user)
+		if err != nil {
+			panic(err)
+		}
+		req, err := http.NewRequest("POST", "https://api.minemind.net/v1/users", bytes.NewBuffer(body))
+		if err != nil {
+			panic(err)
+		}
+		req.Header.Add("authorization", fmt.Sprintf("Bearer %s", accessToken))
+		req.Header.Add("accept", "application/json")
+		req.Header.Add("Content-Type", "application/json")
+		client := &http.Client{}
+		resp, err := client.Do(req)
+		if err != nil {
+			panic(err)
+		}
+		res, err := ioutil.ReadAll(resp.Body)
+		if err != nil {
+			panic(err)
+		}
+		log.Println(string(res))
+	}
 }
 
 func migrateVersion() {
