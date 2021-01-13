@@ -33,3 +33,30 @@ func (h *Handler) GetAccessToken(c echo.Context) error {
 	}
 	return utils.EchoHttpResponse(c, http.StatusOK, result)
 }
+
+// GetAccessToken godoc
+// @tags Public
+// @Summary Get access token
+// @Accept  json
+// @Produce  json
+// @Param body body model.UpdateAccessTokenJSON true "body"
+// @Success 200 {array} model.AccessTokenJSON
+// @Failure 401 {object} utils.HttpResponse
+// @Failure 403 {object} utils.HttpResponse
+// @Failure 404 {object} utils.HttpResponse
+// @Failure 500 {object} utils.HttpResponse
+// @Router /v1/token [post]
+func (h *Handler) OldGetAccessToken(c echo.Context) error {
+	var req model.UpdateAccessTokenJSON
+	if err := c.Bind(&req); err != nil {
+		return utils.EchoHttpResponse(c, http.StatusBadRequest, utils.HttpResponse{Message: err.Error()})
+	}
+	if err := c.Validate(&req); err != nil {
+		return utils.EchoHttpResponse(c, http.StatusBadRequest, utils.HttpResponse{Message: err.Error()})
+	}
+	result, err := h.accessTokenService.GetAccessToken(req)
+	if err != nil {
+		return utils.EchoHttpResponse(c, http.StatusBadRequest, utils.HttpResponse{Message: err.Error()})
+	}
+	return utils.EchoHttpResponse(c, http.StatusOK, result)
+}

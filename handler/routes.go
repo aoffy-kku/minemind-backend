@@ -9,11 +9,11 @@ func (h *Handler) Register(v1 *echo.Group) {
 	auth := middleware.JWT([]byte("Minemind2019"), h.db)
 
 	public := v1.Group("")
-	public.POST("/login", h.Login)
-	public.POST("/token", h.GetAccessToken)
+	public.POST("/login", h.OldLogin)
+	public.POST("/token", h.OldGetAccessToken)
 
 	oldUser := v1.Group("/user")
-	oldUser.GET("/me", h.GetMe, auth)
+	oldUser.GET("/me", h.OldGetMe, auth)
 
 	user := v1.Group("/users")
 	user.POST("", h.CreateUser, auth, middleware.Roles(h.db, middleware.Admin))

@@ -67,6 +67,31 @@ func (h *Handler) GetMe(c echo.Context) error {
 	return utils.EchoHttpResponse(c, http.StatusOK, result)
 }
 
+// GetMe godoc
+// @tags OldUser
+// @Summary Get me
+// @Accept  json
+// @Produce  json
+// @Success 200 {object} model.MeJSON
+// @Failure 401 {object} utils.HttpResponse
+// @Failure 403 {object} utils.HttpResponse
+// @Failure 404 {object} utils.HttpResponse
+// @Failure 500 {object} utils.HttpResponse
+// @Router /v1/user/me [get]
+// @Security ApiKeyAuth
+func (h *Handler) OldGetMe(c echo.Context) error {
+	id := c.Get("id").(string)
+	fmt.Println(id)
+	result , err := h.userService.GetMe(id)
+	if err !=nil {
+		if err == mongo.ErrNoDocuments {
+			return utils.EchoHttpResponse(c, http.StatusNotFound, utils.HttpResponse{})
+		}
+		return utils.EchoHttpResponse(c, http.StatusInternalServerError, utils.HttpResponse{Message: err.Error()})
+	}
+	return utils.EchoHttpResponse(c, http.StatusOK, result)
+}
+
 // GetUserById godoc
 // @tags User
 // @Summary Get user by id
@@ -128,6 +153,36 @@ func (h *Handler) GetUsers(c echo.Context) error  {
 // @Failure 500 {object} utils.HttpResponse
 // @Router /v1/users/login [post]
 func (h *Handler) Login(c echo.Context) error  {
+	var req model.UserLoginRequestJSON
+	if err := c.Bind(&req); err != nil {
+		return utils.EchoHttpResponse(c, http.StatusBadRequest, utils.HttpResponse{Message: err.Error()})
+	}
+	if err := c.Validate(&req); err != nil {
+		return utils.EchoHttpResponse(c, http.StatusBadRequest, utils.HttpResponse{Message: err.Error()})
+	}
+	results, err := h.userService.Login(req)
+	if err !=nil {
+		if err == mongo.ErrNoDocuments {
+			return utils.EchoHttpResponse(c, http.StatusNotFound, utils.HttpResponse{})
+		}
+		return utils.EchoHttpResponse(c, http.StatusInternalServerError, utils.HttpResponse{Message: err.Error()})
+	}
+	return utils.EchoHttpResponse(c, http.StatusOK, results)
+}
+
+// Login godoc
+// @tags Public
+// @Summary Login
+// @Accept  json
+// @Produce  json
+// @Param body body model.UserLoginRequestJSON true "body"
+// @Success 200 {array} model.AccessTokenJSON
+// @Failure 401 {object} utils.HttpResponse
+// @Failure 403 {object} utils.HttpResponse
+// @Failure 404 {object} utils.HttpResponse
+// @Failure 500 {object} utils.HttpResponse
+// @Router /v1/login [post]
+func (h *Handler) OldLogin(c echo.Context) error  {
 	var req model.UserLoginRequestJSON
 	if err := c.Bind(&req); err != nil {
 		return utils.EchoHttpResponse(c, http.StatusBadRequest, utils.HttpResponse{Message: err.Error()})

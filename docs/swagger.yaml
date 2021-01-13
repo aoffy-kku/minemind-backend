@@ -625,6 +625,45 @@ paths:
       summary: Get evaluations
       tags:
       - Evaluation
+  /v1/login:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: body
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/model.UserLoginRequestJSON'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/model.AccessTokenJSON'
+            type: array
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/utils.HttpResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/utils.HttpResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/utils.HttpResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.HttpResponse'
+      summary: Login
+      tags:
+      - Public
   /v1/measurement:
     get:
       consumes:
@@ -689,6 +728,77 @@ paths:
       summary: Get roles
       tags:
       - Roles
+  /v1/token:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: body
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/model.UpdateAccessTokenJSON'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/model.AccessTokenJSON'
+            type: array
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/utils.HttpResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/utils.HttpResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/utils.HttpResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.HttpResponse'
+      summary: Get access token
+      tags:
+      - Public
+  /v1/user/me:
+    get:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.MeJSON'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/utils.HttpResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/utils.HttpResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/utils.HttpResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.HttpResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Get me
+      tags:
+      - OldUser
   /v1/users:
     get:
       consumes:
