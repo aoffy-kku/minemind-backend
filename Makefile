@@ -6,7 +6,7 @@ test:
 migrate:
 	go run cmd/migrate/main.go
 build:
-	docker build --no-cache -f Dockerfile -t minemind-backend .
+	docker build -f Dockerfile -t minemind-backend .
 run:
 	docker run --name minemind-backend -p 1321:1321 -d minemind-backend
 restart:
