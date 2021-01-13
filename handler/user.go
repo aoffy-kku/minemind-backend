@@ -197,7 +197,14 @@ func (h *Handler) OldLogin(c echo.Context) error  {
 		}
 		return utils.EchoHttpResponse(c, http.StatusInternalServerError, utils.HttpResponse{Message: err.Error()})
 	}
-	return utils.EchoHttpResponse(c, http.StatusOK, results)
+	type OldAccessToken struct {
+		AccessToken string `json:"access_token"`
+		RefreshToken string `json:"refresh_token"`
+	}
+	return utils.EchoHttpResponse(c, http.StatusOK, &OldAccessToken{
+		AccessToken: results.Pair,
+		RefreshToken: results.Id,
+	})
 }
 
 // UpdateBirthDate godoc
