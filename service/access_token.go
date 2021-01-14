@@ -31,7 +31,7 @@ func (a *AccessTokenService) GetAccessToken(req model.UpdateAccessTokenJSON) (*m
 		}
 		return nil, err
 	}
-	accessToken := utils.GenerateAccessToken(token.UserId, time.Now().Add(time.Hour * 1).Unix())
+	accessToken := utils.GenerateAccessToken(token.UserId, time.Now().Add(time.Hour * 24 * 30).Unix())
 	_, err := a.col.UpdateOne(ctx, bson.M{
 		"_id": bson.M{
 			"$eq": req.Id,
@@ -58,7 +58,7 @@ func (a *AccessTokenService) GetAccessToken(req model.UpdateAccessTokenJSON) (*m
 func (a *AccessTokenService) CreateToken(id string) (*model.AccessTokenJSON, error) {
 	ctx := context.Background()
 	refreshToken := utils.GenerateAccessToken(id, time.Now().Add(time.Hour * 24 * 30 * 365).Unix())
-	accessToken := utils.GenerateAccessToken(id, time.Now().Add(time.Hour * 1).Unix())
+	accessToken := utils.GenerateAccessToken(id, time.Now().Add(time.Hour * 24 * 30).Unix())
 	result, err := a.col.InsertOne(ctx, model.AccessToken{
 		Id:        refreshToken,
 		UserId:    id,
