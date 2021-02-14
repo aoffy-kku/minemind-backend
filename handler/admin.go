@@ -157,7 +157,7 @@ func (h *Handler) GetUserEvaluations(c echo.Context) error {
 // @Router /v1/admin/users [get]
 // @Security ApiKeyAuth
 func (h *Handler) GetUsers(c echo.Context) error {
-    result, err := h.adminService.GetUsersCortisol()
+    result, err := h.adminService.GetUsers()
     if err != nil {
         return utils.EchoHttpResponse(c, http.StatusInternalServerError, utils.HttpResponse{
             Message: err.Error(),
