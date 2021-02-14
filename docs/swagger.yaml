@@ -540,6 +540,120 @@ paths:
       summary: Get access token
       tags:
       - AccessToken
+  /v1/admin/users:
+    get:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/model.UserJSON'
+            type: array
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/utils.HttpResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/utils.HttpResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/utils.HttpResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.HttpResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Get users
+      tags:
+      - Admin
+  /v1/admin/users/{id}/cortisol:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/model.CortisolJSON'
+            type: array
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/utils.HttpResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/utils.HttpResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/utils.HttpResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.HttpResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Get user cortisol
+      tags:
+      - Admin
+  /v1/admin/users/{id}/diary:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/model.UserDiaryJSON'
+            type: array
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/utils.HttpResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/utils.HttpResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/utils.HttpResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.HttpResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Get user diary
+      tags:
+      - Admin
   /v1/admin/users/cortisol:
     get:
       consumes:
@@ -612,6 +726,12 @@ paths:
     get:
       consumes:
       - application/json
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: string
       produces:
       - application/json
       responses:
@@ -639,7 +759,7 @@ paths:
             $ref: '#/definitions/utils.HttpResponse'
       security:
       - ApiKeyAuth: []
-      summary: Get users evaluations
+      summary: Get user evaluations
       tags:
       - Admin
   /v1/cortisol:
@@ -929,39 +1049,6 @@ paths:
       tags:
       - OldUser
   /v1/users:
-    get:
-      consumes:
-      - application/json
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            items:
-              $ref: '#/definitions/model.UserJSON'
-            type: array
-        "401":
-          description: Unauthorized
-          schema:
-            $ref: '#/definitions/utils.HttpResponse'
-        "403":
-          description: Forbidden
-          schema:
-            $ref: '#/definitions/utils.HttpResponse'
-        "404":
-          description: Not Found
-          schema:
-            $ref: '#/definitions/utils.HttpResponse'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/utils.HttpResponse'
-      security:
-      - ApiKeyAuth: []
-      summary: Get users
-      tags:
-      - User
     post:
       consumes:
       - application/json
