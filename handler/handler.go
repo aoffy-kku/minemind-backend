@@ -18,6 +18,7 @@ type Handler struct {
 	userDiaryService _interface.UserDiaryServiceInterface
 	evaluationService _interface.EvaluationServiceInterface
 	userEvaluationService _interface.UserEvaluationServiceInterface
+	adminService _interface.AdminServiceInterface
 }
 
 func NewHandler(db *mongo.Database) *Handler {
@@ -31,6 +32,7 @@ func NewHandler(db *mongo.Database) *Handler {
 	var userDiaryService _interface.UserDiaryServiceInterface = service.NewUserDiaryService(db)
 	var evaluationService _interface.EvaluationServiceInterface = service.NewEvaluationService(db)
 	var userEvaluationService _interface.UserEvaluationServiceInterface = service.NewUserEvaluationService(db)
+	var adminService _interface.AdminServiceInterface = service.NewAdminService(db)
 
 	return &Handler{
 		db: db,
@@ -44,5 +46,6 @@ func NewHandler(db *mongo.Database) *Handler {
 		userDiaryService: userDiaryService,
 		evaluationService: evaluationService,
 		userEvaluationService: userEvaluationService,
+		adminService: adminService,
 	}
 }

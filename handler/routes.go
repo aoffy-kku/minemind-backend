@@ -64,4 +64,9 @@ func (h *Handler) Register(v1 *echo.Group) {
 
 	version := v1.Group("/version")
 	version.GET("", h.GetVersion)
+
+	admin := v1.Group("/admin", auth, middleware.Roles(h.db, middleware.Admin))
+	admin.GET("/users/diary", h.GetUsersDiary)
+	admin.GET("/users/evaluation", h.GetUsersEvaluations)
+	admin.GET("/users/cortisol", h.GetUsersCortisol)
 }

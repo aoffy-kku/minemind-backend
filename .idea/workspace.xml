@@ -2,8 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f9275270-75cc-459c-a99e-7e36b47307aa" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/handler/admin.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/interface/admin.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/service/admin.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/service/access_token.go" beforeDir="false" afterPath="$PROJECT_DIR$/service/access_token.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/handler/handler.go" beforeDir="false" afterPath="$PROJECT_DIR$/handler/handler.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/handler/routes.go" beforeDir="false" afterPath="$PROJECT_DIR$/handler/routes.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -79,9 +83,9 @@
       <screen x="0" y="0" width="1440" height="900" />
     </state>
     <state x="229" y="86" key="SettingsEditor/0.0.1440.900@0.0.1440.900" timestamp="1608610388473" />
-    <state x="422" y="160" width="595" height="580" key="find.popup" timestamp="1610159884971">
+    <state x="422" y="160" width="595" height="580" key="find.popup" timestamp="1613321509398">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state x="422" y="160" width="595" height="580" key="find.popup/0.0.1440.900@0.0.1440.900" timestamp="1610159884971" />
+    <state x="422" y="160" width="595" height="580" key="find.popup/0.0.1440.900@0.0.1440.900" timestamp="1613321509398" />
   </component>
 </project>
