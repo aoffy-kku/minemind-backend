@@ -10,6 +10,7 @@ build:
 run:
 	docker run --name minemind-backend -p 1321:1321 -d minemind-backend
 deploy:
+	swag init
 	docker build -f Dockerfile -t minemind-backend .
 	make restart
 restart:
