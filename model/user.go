@@ -40,8 +40,11 @@ type CreateUserRequestJSON struct {
 }
 
 type UpdateUserRequestJSON struct {
+	Email       string `json:"-"`
 	DisplayName string `json:"displayName" validate:"required,min=4"`
 	WatchId     string `json:"watchId" validate:"required"`
+	Begin 	time.Time `json:"begin"`
+	End     time.Time `json:"end"`
 }
 
 type UserLoginRequestJSON struct {

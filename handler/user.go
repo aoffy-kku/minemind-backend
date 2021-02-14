@@ -133,16 +133,16 @@ func (h *Handler) GetUserById(c echo.Context) error {
 // @Failure 500 {object} utils.HttpResponse
 // @Router /v1/users [get]
 // @Security ApiKeyAuth
-func (h *Handler) GetUsers(c echo.Context) error  {
-	results, err := h.userService.GetUsers()
-	if err !=nil {
-		if err == mongo.ErrNoDocuments {
-			return utils.EchoHttpResponse(c, http.StatusNotFound, utils.HttpResponse{})
-		}
-		return utils.EchoHttpResponse(c, http.StatusInternalServerError, utils.HttpResponse{Message: err.Error()})
-	}
-	return utils.EchoHttpResponse(c, http.StatusOK, results)
-}
+//func (h *Handler) GetUsers(c echo.Context) error  {
+//	results, err := h.userService.GetUsers()
+//	if err !=nil {
+//		if err == mongo.ErrNoDocuments {
+//			return utils.EchoHttpResponse(c, http.StatusNotFound, utils.HttpResponse{})
+//		}
+//		return utils.EchoHttpResponse(c, http.StatusInternalServerError, utils.HttpResponse{Message: err.Error()})
+//	}
+//	return utils.EchoHttpResponse(c, http.StatusOK, results)
+//}
 
 // Login godoc
 // @tags User
