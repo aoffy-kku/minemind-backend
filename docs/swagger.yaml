@@ -289,6 +289,33 @@ definitions:
       watchId:
         type: string
     type: object
+  model.OldUser:
+    properties:
+      created:
+        type: string
+      display_name:
+        type: string
+      email:
+        type: string
+      modified:
+        type: string
+      phone_number:
+        type: string
+      username:
+        type: string
+      watch_id:
+        type: string
+    type: object
+  model.OldUserLoginRequestJSON:
+    properties:
+      password:
+        type: string
+      username:
+        type: string
+    required:
+    - password
+    - username
+    type: object
   model.Option:
     properties:
       id:
@@ -513,6 +540,108 @@ paths:
       summary: Get access token
       tags:
       - AccessToken
+  /v1/admin/users/cortisol:
+    get:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/model.CortisolJSON'
+            type: array
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/utils.HttpResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/utils.HttpResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/utils.HttpResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.HttpResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Get users cortisol
+      tags:
+      - Admin
+  /v1/admin/users/diary:
+    get:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/model.UserDiaryJSON'
+            type: array
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/utils.HttpResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/utils.HttpResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/utils.HttpResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.HttpResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Get users diary
+      tags:
+      - Admin
+  /v1/admin/users/evaluation:
+    get:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/model.UserEvaluationJSON'
+            type: array
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/utils.HttpResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/utils.HttpResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/utils.HttpResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.HttpResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Get users evaluations
+      tags:
+      - Admin
   /v1/cortisol:
     post:
       consumes:
@@ -635,7 +764,7 @@ paths:
         name: body
         required: true
         schema:
-          $ref: '#/definitions/model.UserLoginRequestJSON'
+          $ref: '#/definitions/model.OldUserLoginRequestJSON'
       produces:
       - application/json
       responses:
@@ -777,7 +906,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/model.MeJSON'
+            $ref: '#/definitions/model.OldUser'
         "401":
           description: Unauthorized
           schema:
