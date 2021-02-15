@@ -292,7 +292,7 @@ func (a *AdminService) UpdateUser(request model.UpdateUserRequestJSON) (*model.U
     ctx := context.Background()
     col := a.db.Collection("user")
     _, err := col.UpdateOne(ctx, bson.M{
-        "user_id": bson.M{
+        "_id": bson.M{
             "$eq": request.Email,
         },
     }, bson.M{
@@ -308,7 +308,7 @@ func (a *AdminService) UpdateUser(request model.UpdateUserRequestJSON) (*model.U
     }
     var doc model.User
     if err := col.FindOne(ctx, bson.M{
-        "id": bson.M{
+        "_id": bson.M{
             "$eq": request.Email,
         },
     }).Decode(&doc); err != nil {
