@@ -12,6 +12,153 @@ type AdminService struct {
     db *mongo.Database
 }
 
+func (a *AdminService) GetUsersAnalysis() ([]*model.AnalysisJSON, error) {
+    ctx := context.Background()
+
+    col := a.db.Collection("user_analysis")
+    opts := &options.FindOptions{}
+    opts.SetSort(bson.M{
+        "user_id": -1,
+        "created_at": -1,
+    })
+    var docs []*model.AnalysisJSON
+    cur, err := col.Find(ctx, bson.M{
+    }, opts)
+    if err != nil {
+        return nil, err
+    }
+    for cur.Next(ctx) {
+        var m model.Analysis
+        if err := cur.Decode(&m); err != nil {
+            return nil, err
+        }
+        var questions []model.QuestionJSON
+        for _, q := range m.UserEvaluation.Questions {
+            var opts []model.OptionJSON
+            for _, o := range q.Options {
+                opts = append(opts, model.OptionJSON{
+                    Id:    o.Id,
+                    Title: o.Title,
+                    Value: o.Value,
+                })
+            }
+            questions = append(questions, model.QuestionJSON{
+                Id:      q.Id,
+                Title:   q.Title,
+                Options: opts,
+            })
+        }
+        docs = append(docs, &model.AnalysisJSON{
+            Id:               m.Id,
+            Mode:             m.Mode,
+            UserId:           m.UserId,
+            UserEvaluationId: m.UserEvaluationId,
+            UserEvaluation: model.UserEvaluationJSON{
+                Id:           m.UserEvaluation.Id,
+                EvaluationId: m.UserEvaluation.EvaluationId,
+                UserId:       m.UserEvaluation.UserId,
+                Name:         m.UserEvaluation.Name,
+                Description:  m.UserEvaluation.Description,
+                Questions:    questions,
+                CreatedAt:    m.CreatedAt,
+                CreatedBy:    m.CreatedBy,
+            },
+            CortisolId: m.CortisolId,
+            Cortisol: model.CortisolJSON{
+                Id:        m.Cortisol.Id,
+                UserId:    m.Cortisol.UserId,
+                Cortisol:  m.Cortisol.Cortisol,
+                Timestamp: m.Cortisol.Timestamp,
+                CreatedAt: m.Cortisol.CreatedAt,
+                CreatedBy: m.Cortisol.CreatedBy,
+            },
+            Status:    m.Status,
+            Class:     m.Class,
+            Score:     m.Score,
+            CreatedAt: m.CreatedAt,
+            CreatedBy: m.CreatedBy,
+            UpdatedAt: m.UpdatedAt,
+            UpdatedBy: m.UpdatedBy,
+        })
+    }
+    return docs, nil
+}
+
+func (a *AdminService) GetUserAnalysis(id string) ([]*model.AnalysisJSON, error) {
+    ctx := context.Background()
+
+    col := a.db.Collection("user_analysis")
+    opts := &options.FindOptions{}
+    opts.SetSort(bson.M{
+        "user_id": -1,
+        "created_at": -1,
+    })
+    var docs []*model.AnalysisJSON
+    cur, err := col.Find(ctx, bson.M{
+        "user_id": bson.M{
+            "$eq": id,
+        },
+    }, opts)
+    if err != nil {
+        return nil, err
+    }
+    for cur.Next(ctx) {
+        var m model.Analysis
+        if err := cur.Decode(&m); err != nil {
+            return nil, err
+        }
+        var questions []model.QuestionJSON
+        for _, q := range m.UserEvaluation.Questions {
+            var opts []model.OptionJSON
+            for _, o := range q.Options {
+                opts = append(opts, model.OptionJSON{
+                    Id:    o.Id,
+                    Title: o.Title,
+                    Value: o.Value,
+                })
+            }
+            questions = append(questions, model.QuestionJSON{
+                Id:      q.Id,
+                Title:   q.Title,
+                Options: opts,
+            })
+        }
+        docs = append(docs, &model.AnalysisJSON{
+            Id:               m.Id,
+            Mode:             m.Mode,
+            UserId:           m.UserId,
+            UserEvaluationId: m.UserEvaluationId,
+            UserEvaluation: model.UserEvaluationJSON{
+                Id:           m.UserEvaluation.Id,
+                EvaluationId: m.UserEvaluation.EvaluationId,
+                UserId:       m.UserEvaluation.UserId,
+                Name:         m.UserEvaluation.Name,
+                Description:  m.UserEvaluation.Description,
+                Questions:    questions,
+                CreatedAt:    m.CreatedAt,
+                CreatedBy:    m.CreatedBy,
+            },
+            CortisolId: m.CortisolId,
+            Cortisol: model.CortisolJSON{
+                Id:        m.Cortisol.Id,
+                UserId:    m.Cortisol.UserId,
+                Cortisol:  m.Cortisol.Cortisol,
+                Timestamp: m.Cortisol.Timestamp,
+                CreatedAt: m.Cortisol.CreatedAt,
+                CreatedBy: m.Cortisol.CreatedBy,
+            },
+            Status:    m.Status,
+            Class:     m.Class,
+            Score:     m.Score,
+            CreatedAt: m.CreatedAt,
+            CreatedBy: m.CreatedBy,
+            UpdatedAt: m.UpdatedAt,
+            UpdatedBy: m.UpdatedBy,
+        })
+    }
+    return docs, nil
+}
+
 func (a *AdminService) GetUserDiary(id string) ([]*model.UserDiaryJSON, error) {
     ctx := context.Background()
 

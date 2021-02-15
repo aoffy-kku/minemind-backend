@@ -69,9 +69,11 @@ func (h *Handler) Register(v1 *echo.Group) {
 	admin.GET("/users/diary", h.GetUsersDiary)
 	admin.GET("/users/evaluation", h.GetUsersEvaluations)
 	admin.GET("/users/cortisol", h.GetUsersCortisol)
+	admin.GET("/users/analysis", h.GetUsersAnalysis)
 	admin.GET("/users/:id/diary", h.GetUserDiary)
 	admin.GET("/users/:id/evaluation", h.GetUserEvaluations)
 	admin.GET("/users/:id/cortisol", h.GetUserCortisol)
+	admin.GET("/users/:id/analysis", h.GetUserAnalysis)
 	admin.GET("/users", h.GetUsers)
 	admin.PATCH("/users/:id", h.UpdateUser)
 }

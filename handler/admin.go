@@ -73,6 +73,28 @@ func (h *Handler) GetUsersCortisol(c echo.Context) error {
     return utils.EchoHttpResponse(c, http.StatusOK, result)
 }
 
+// GetUsersAnalysis godoc
+// @tags Admin
+// @Summary Get users analysis
+// @Accept  json
+// @Produce  json
+// @Success 200 {array} model.AnalysisJSON
+// @Failure 401 {object} utils.HttpResponse
+// @Failure 403 {object} utils.HttpResponse
+// @Failure 404 {object} utils.HttpResponse
+// @Failure 500 {object} utils.HttpResponse
+// @Router /v1/admin/users/analysis [get]
+// @Security ApiKeyAuth
+func (h *Handler) GetUsersAnalysis(c echo.Context) error {
+    result, err := h.adminService.GetUsersAnalysis()
+    if err != nil {
+        return utils.EchoHttpResponse(c, http.StatusInternalServerError, utils.HttpResponse{
+            Message: err.Error(),
+        })
+    }
+    return utils.EchoHttpResponse(c, http.StatusOK, result)
+}
+
 // GetUserCortisol godoc
 // @tags Admin
 // @Summary Get user cortisol
@@ -132,11 +154,35 @@ func (h *Handler) GetUserDiary(c echo.Context) error {
 // @Failure 403 {object} utils.HttpResponse
 // @Failure 404 {object} utils.HttpResponse
 // @Failure 500 {object} utils.HttpResponse
-// @Router /v1/admin/users/evaluation [get]
+// @Router /v1/admin/users/{id}/evaluation [get]
 // @Security ApiKeyAuth
 func (h *Handler) GetUserEvaluations(c echo.Context) error {
     id := c.Param("id")
     result, err := h.adminService.GetUserEvaluation(id)
+    if err != nil {
+        return utils.EchoHttpResponse(c, http.StatusInternalServerError, utils.HttpResponse{
+            Message: err.Error(),
+        })
+    }
+    return utils.EchoHttpResponse(c, http.StatusOK, result)
+}
+
+// GetUserAnalysis godoc
+// @tags Admin
+// @Summary Get users analysis
+// @Accept  json
+// @Produce  json
+// @Param id path string true "id"
+// @Success 200 {array} model.AnalysisJSON
+// @Failure 401 {object} utils.HttpResponse
+// @Failure 403 {object} utils.HttpResponse
+// @Failure 404 {object} utils.HttpResponse
+// @Failure 500 {object} utils.HttpResponse
+// @Router /v1/admin/users/{id}/analysis [get]
+// @Security ApiKeyAuth
+func (h *Handler) GetUserAnalysis(c echo.Context) error {
+    id := c.Param("id")
+    result, err := h.adminService.GetUserAnalysis(id)
     if err != nil {
         return utils.EchoHttpResponse(c, http.StatusInternalServerError, utils.HttpResponse{
             Message: err.Error(),
