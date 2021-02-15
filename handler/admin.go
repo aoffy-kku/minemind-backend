@@ -1,6 +1,7 @@
 package handler
 
 import (
+    "github.com/aoffy-kku/minemind-backend/model"
     "github.com/aoffy-kku/minemind-backend/utils"
     "github.com/labstack/echo/v4"
     "net/http"
@@ -158,6 +159,47 @@ func (h *Handler) GetUserEvaluations(c echo.Context) error {
 // @Security ApiKeyAuth
 func (h *Handler) GetUsers(c echo.Context) error {
     result, err := h.adminService.GetUsers()
+    if err != nil {
+        return utils.EchoHttpResponse(c, http.StatusInternalServerError, utils.HttpResponse{
+            Message: err.Error(),
+        })
+    }
+    return utils.EchoHttpResponse(c, http.StatusOK, result)
+}
+
+// UpdateUser godoc
+// @tags Admin
+// @Summary Update user
+// @Accept  json
+// @Produce  json
+// @Param body body model.UpdateUserRequestJSON true "body"
+// @Success 200 {object} model.UserJSON
+// @Failure 401 {object} utils.HttpResponse
+// @Failure 403 {object} utils.HttpResponse
+// @Failure 404 {object} utils.HttpResponse
+// @Failure 500 {object} utils.HttpResponse
+// @Router /v1/admin/users/{id} [patch]
+// @Security ApiKeyAuth
+func (h *Handler) UpdateUser(c echo.Context) error {
+    id := c.Param("id")
+    if _, err := h.userService.GetUserById(id); err != nil {
+        return utils.EchoHttpResponse(c, http.StatusBadRequest, utils.HttpResponse{
+            Message: err.Error(),
+        })
+    }
+    var body model.UpdateUserRequestJSON
+    if err := c.Bind(&body); err != nil {
+        return utils.EchoHttpResponse(c, http.StatusBadRequest, utils.HttpResponse{
+            Message: err.Error(),
+        })
+    }
+    if err := c.Validate(&body); err != nil {
+        return utils.EchoHttpResponse(c, http.StatusBadRequest, utils.HttpResponse{
+            Message: err.Error(),
+        })
+    }
+    body.Email = id
+    result, err := h.adminService.UpdateUser(body)
     if err != nil {
         return utils.EchoHttpResponse(c, http.StatusInternalServerError, utils.HttpResponse{
             Message: err.Error(),
