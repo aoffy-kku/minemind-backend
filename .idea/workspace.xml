@@ -5,8 +5,6 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/handler/admin.go" beforeDir="false" afterPath="$PROJECT_DIR$/handler/admin.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/handler/routes.go" beforeDir="false" afterPath="$PROJECT_DIR$/handler/routes.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/interface/admin.go" beforeDir="false" afterPath="$PROJECT_DIR$/interface/admin.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/service/admin.go" beforeDir="false" afterPath="$PROJECT_DIR$/service/admin.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

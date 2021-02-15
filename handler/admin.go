@@ -253,3 +253,27 @@ func (h *Handler) UpdateUser(c echo.Context) error {
     }
     return utils.EchoHttpResponse(c, http.StatusOK, result)
 }
+
+// GetUserMood godoc
+// @tags Admin
+// @Summary Get user mood
+// @Accept  json
+// @Produce  json
+// @Param id path string true "id"
+// @Success 200 {array} model.UserMoodJSON
+// @Failure 401 {object} utils.HttpResponse
+// @Failure 403 {object} utils.HttpResponse
+// @Failure 404 {object} utils.HttpResponse
+// @Failure 500 {object} utils.HttpResponse
+// @Router /v1/admin/users/{id}/mood [get]
+// @Security ApiKeyAuth
+func (h *Handler) GetUserMood(c echo.Context) error {
+    id := c.Param("id")
+    result, err := h.userMoodService.GetUserMoods(id)
+    if err != nil {
+        return utils.EchoHttpResponse(c, http.StatusInternalServerError, utils.HttpResponse{
+            Message: err.Error(),
+        })
+    }
+    return utils.EchoHttpResponse(c, http.StatusOK, result)
+}
